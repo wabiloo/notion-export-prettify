@@ -109,6 +109,11 @@ with tempfile.TemporaryDirectory() as temp_dir:
         pdf_maker.inject_title_page_pdf(title_page_file, title_html)
 
     # 4. - Save to file
-    pdf_maker.save(args.output)
+    output_file = args.output
+    if not output_file:
+        # Save in the same directory as the input with the title as filename
+        output_file = path.join(path.dirname(args.zip_file), metadata["title"] + ".pdf")
 
-    logging.info("PDF generated at %s" % args.output)
+    pdf_maker.save(output_file)
+
+    logging.info("PDF generated at %s" % output_file)

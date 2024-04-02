@@ -22,8 +22,9 @@ def parse_args():
         "-o",
         "--output",
         type=str,
-        default="output.pdf",
-        help="Path to the output PDF file",
+        default=None,
+        help="Path to the output PDF file. "        
+        "Defaults to using the document title as filename, stored in the same folder as the input.",
     )
 
     # metadata
