@@ -1,4 +1,18 @@
 # notion-pretty-export
+
+So, you are the type of person who still believes in function over style,
+you are organised and like to avoid unnecessary work.
+For that reason, you got converted by the rich toolset that Notion offers, 
+and use it pretty much exclusively for all your note taking, document writing
+and general thought-dumping ground.
+You've even managed to convince your manager to let you use at work, and converted
+some folks to your way of working...
+
+Life is sweet!
+
+But then comes the time when you need to share some of that
+content with 3rd parties in an official capacity. 
+
 Turn your notion page into a styled and branded PDF
 
 ## Usage
