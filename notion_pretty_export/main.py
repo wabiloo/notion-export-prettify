@@ -61,7 +61,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
         manipulator.number_headings()
 
     # 1.d. - Reset TOC
-    manipulator.reset_toc()
+    manipulator.move_toc(keep=args.table_of_contents)
 
     # 1.e. - handle Notion header
     if with_cover_page:

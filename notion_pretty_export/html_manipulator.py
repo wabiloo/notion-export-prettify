@@ -105,7 +105,7 @@ class HtmlManipulator:
             if toc_link:
                 toc_link.string = numbering + toc_link.text
 
-    def reset_toc(self):
+    def move_toc(self, keep=True):
         # Move the TOC to the body
         if self.toc:
             # Find its ancestor that is a child of the body
@@ -115,13 +115,16 @@ class HtmlManipulator:
                     break
                 parent_to_remove = parent
 
-            # replace the parent with the nav
-            parent_to_remove.replace_with(self.toc)
+            if keep:
+                # replace the parent with the nav
+                parent_to_remove.replace_with(self.toc)
 
-            # Prefix it with a new H1
-            new_h1 = self.soup.new_tag("h1")
-            new_h1.string = "Table of Contents"
-            self.toc.insert_before(new_h1)
+                # Prefix it with a new H1
+                new_h1 = self.soup.new_tag("h1")
+                new_h1.string = "Table of Contents"
+                self.toc.insert_before(new_h1)
+            else:
+                parent_to_remove.extract()
 
     def get_html(self):
         return str(self.soup)

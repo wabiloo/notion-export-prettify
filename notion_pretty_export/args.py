@@ -60,5 +60,11 @@ def parse_args():
         default=True,
         help="Remove internal information, such as callouts and database properties",
     )
+    options.add_argument(
+        "--table-of-contents",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Add a table of contents (if existing in the Notion document)",
+    )
 
     return parser.parse_args()
