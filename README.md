@@ -43,11 +43,9 @@ Template?  Yes, you can also have several templates defined, and choose the one 
 
 ## Usage
 ```
-usage: notion_pretty_export [-h] 
-        [-o OUTPUT] 
-        [-t TITLE] [-s SUBTITLE] [-p PROJECT] [-a AUTHOR] [-d DATE] [--title-page | --no-title-page]
-        [--heading-numbers | --no-heading-numbers] [--strip-internal-info | --no-strip-internal-info]
-        zip_file template_dir
+usage: main.py [-h] [-o OUTPUT] [-t TITLE] [-s SUBTITLE] [-p PROJECT] [-a AUTHOR] [-d DATE] [--title-page | --no-title-page]
+               [--heading-numbers | --no-heading-numbers] [--strip-internal-info | --no-strip-internal-info]
+               zip_file template_dir
 
 Turn a Notion page into a styled PDF document.
 
@@ -59,6 +57,10 @@ options:
   -h, --help            show this help message and exit
   -o OUTPUT, --output OUTPUT
                         Path to the output PDF file
+
+Metadata:
+  Available to be injected into header/footer/cover page templates
+
   -t TITLE, --title TITLE
                         Title of the document
   -s SUBTITLE, --subtitle SUBTITLE
@@ -68,6 +70,10 @@ options:
   -a AUTHOR, --author AUTHOR
                         Author of the document
   -d DATE, --date DATE  Date of the document
+
+Options:
+  Options to control the output
+
   --title-page, --no-title-page
                         Add a title page (if defined in the template)
   --heading-numbers, --no-heading-numbers

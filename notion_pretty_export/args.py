@@ -3,7 +3,7 @@ import argparse
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        prog="Notion2PDF", description="Turn a Notion page into a styled PDF document."
+        description="Turn a Notion page into a styled PDF document."
     )
 
     parser.add_argument(
@@ -27,26 +27,34 @@ def parse_args():
     )
 
     # metadata
-    parser.add_argument("-t", "--title", type=str, help="Title of the document")
-    parser.add_argument("-s", "--subtitle", type=str, help="Subtitle of the document")
-    parser.add_argument("-p", "--project", type=str, help="project of the document")
-    parser.add_argument("-a", "--author", type=str, help="Author of the document")
-    parser.add_argument("-d", "--date", type=str, help="Date of the document")
+    metadata = parser.add_argument_group(
+        "Metadata",
+        description="Available to be injected into header/footer/cover page templates",
+    )
+    metadata.add_argument("-t", "--title", type=str, help="Title of the document")
+    metadata.add_argument("-s", "--subtitle", type=str, help="Subtitle of the document")
+    metadata.add_argument("-p", "--project", type=str, help="project of the document")
+    metadata.add_argument("-a", "--author", type=str, help="Author of the document")
+    metadata.add_argument("-d", "--date", type=str, help="Date of the document")
 
-    # transformations
-    parser.add_argument(
+    # options
+    options = parser.add_argument_group(
+        "Options", description="Options to control the output"
+    )
+
+    options.add_argument(
         "--title-page",
         action=argparse.BooleanOptionalAction,
         default=True,
         help="Add a title page (if defined in the template)",
     )
-    parser.add_argument(
+    options.add_argument(
         "--heading-numbers",
         action=argparse.BooleanOptionalAction,
         default=True,
         help="Add heading numbers",
     )
-    parser.add_argument(
+    options.add_argument(
         "--strip-internal-info",
         action=argparse.BooleanOptionalAction,
         default=True,
