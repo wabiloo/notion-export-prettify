@@ -96,8 +96,8 @@ class PdfMaker:
     ):
         background = fitz.open(background_pdf_path)
 
-        for _, page in enumerate(self.pdf_doc, start=1):
-            page.show_pdf_page(page.rect, background, pno=0, overlay=False)
+        for page in self.pdf_doc:
+            page.show_pdf_page(page.rect, background, overlay=False)
 
     def inject_title_page_pdf(self, titlepage_pdf_path, additional_html):
         final_titlepage_pdf_path = titlepage_pdf_path
@@ -106,7 +106,8 @@ class PdfMaker:
                 temp_dir=self.temp_dir, output_name="titlepage.pdf"
             )
             title_pdf_make.from_html(additional_html)
-            title_pdf_make.merge_background_pdf(titlepage_pdf_path)
+            if titlepage_pdf_path:
+                title_pdf_make.merge_background_pdf(titlepage_pdf_path)
 
             final_titlepage_pdf_path = path.join(self.temp_dir, "final_title_page.pdf")
             title_pdf_make.save(final_titlepage_pdf_path)

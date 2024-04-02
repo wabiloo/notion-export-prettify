@@ -30,9 +30,9 @@ with tempfile.TemporaryDirectory() as temp_dir:
     html_file = path.join(temp_dir, html_files[0])
 
     # 0. Determine if there will be a title page
-    with_title_page = args.title_page and (
-        resources.get_resource_path("title.html")
-        or resources.get_resource_path("title.pdf")
+    with_cover_page = args.cover_page and (
+        resources.get_resource_path("cover.html")
+        or resources.get_resource_path("cover.pdf")
     )
 
     # 1. - Manipulate the HTML
@@ -64,7 +64,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
     manipulator.reset_toc()
 
     # 1.e. - handle Notion header
-    if with_title_page:
+    if with_cover_page:
         manipulator.remove_header()
     else:
         manipulator.inject_metadata_into_header(**metadata)
@@ -98,13 +98,13 @@ with tempfile.TemporaryDirectory() as temp_dir:
         pdf_maker.merge_background_pdf(background_file)
 
     # 3.e. - Add title page
-    if with_title_page:
+    if with_cover_page:
         title_html = "<html></html>"
-        title_template = resources.get_resource_content("title.html")
+        title_template = resources.get_resource_content("cover.html")
         if title_template:
             title_html = HtmlTemplator.render(title_template, metadata)
 
-        title_page_file = resources.get_resource_path("title.pdf")
+        title_page_file = resources.get_resource_path("cover.pdf")
 
         pdf_maker.inject_title_page_pdf(title_page_file, title_html)
 

@@ -43,10 +43,10 @@ def parse_args():
     )
 
     options.add_argument(
-        "--title-page",
+        "--cover-page",
         action=argparse.BooleanOptionalAction,
         default=True,
-        help="Add a title page (if defined in the template)",
+        help="Add a cover page (if defined in the template)",
     )
     options.add_argument(
         "--heading-numbers",
