@@ -34,7 +34,7 @@ Features:
     - Add numbering to headings
     - Apply custom CSS with your branding
     - Rejig the table of contents
-- Apply branded headers and footers to all pages, with your custom metadata
+- Apply branded headers and footers to all pages, with your custom metadata (and page numbers)
 - Insert a branded cover page
 
 All of those are optional, and will just be done if associated resources are available in the template.
