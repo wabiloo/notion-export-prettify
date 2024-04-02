@@ -39,20 +39,11 @@ class HtmlManipulator:
         for header in self.soup.find_all("header"):
             header.extract()
 
-    def inject_metadata_into_header(self, **kwargs):
+    def inject_title_block(self, title_block):
         for header in self.soup.find_all("header"):
-            # Find the first <h1> tag
-            h1_tag = header.find("h1")
-            if h1_tag:
-                for name, value in reversed(kwargs.items()):
-                    if name == "title":
-                        continue
-                    if value is None or value == "":
-                        continue
-                    tag = self.soup.new_tag("div")
-                    tag.string = value
-                    tag["class"] = f"page-{name}"
-                    h1_tag.insert_after(tag)
+            header.clear()
+            title_block = BeautifulSoup(title_block, "html.parser")
+            header.append(title_block)
 
     def remove_internal_info(self):
         # Remove all Internal callouts

@@ -63,11 +63,15 @@ with tempfile.TemporaryDirectory() as temp_dir:
     # 1.d. - Reset TOC
     manipulator.move_toc(keep=args.table_of_contents)
 
-    # 1.e. - handle Notion header
+    # 1.e. - handle Notion's header (title)
     if with_cover_page:
         manipulator.remove_header()
     else:
-        manipulator.inject_metadata_into_header(**metadata)
+        if title_template := resources.get_resource_content("title.html"):
+            title_block = HtmlTemplator.render(title_template, metadata)
+            manipulator.inject_title_block(title_block)
+
+        # else we keep the title as it is in the Notion doc
 
     # 1.x. - Save to file
     updated_html_path = path.join(temp_dir, "updated_doc.html")
