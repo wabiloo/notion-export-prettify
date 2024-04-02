@@ -86,9 +86,9 @@ with tempfile.TemporaryDirectory() as temp_dir:
         )
         manipulator.remove_header()
     else:
-        if cover_template := resources.get_resource_content("title.html"):
-            print_color.green("[PROC] Rendering and injecting new title block")
-            title_block = HtmlTemplator.render(cover_template, metadata)
+        if header_template := resources.get_resource_content("header.html"):
+            print_color.green("[PROC] Rendering and injecting new header block")
+            title_block = HtmlTemplator.render(header_template, metadata)
             manipulator.inject_title_block(title_block)
         else:
             print_color.orange(
@@ -102,38 +102,34 @@ with tempfile.TemporaryDirectory() as temp_dir:
         logging.debug("Updated HTML saved to %s", updated_html_path)
 
     # 3. - Convert to PDF
-
-    # 3.a. - Get header template
-    header_html = None
-    header_template = resources.get_resource_content("header.html")
-    if header_template:
-        print_color.green("[PROC] Rendering header template")
-        header_html = HtmlTemplator.render(header_template, metadata)
-    else:
-        print_color.orange("[SKIP] No header template found")
-
-    # 3.b. - Get footer template
-    footer_html = None
-    footer_template = resources.get_resource_content("footer.html")
-    if footer_template:
-        print_color.green("[PROC] Rendering footer template")
-        footer_html = HtmlTemplator.render(footer_template, metadata)
-    else:
-        print_color.orange("[SKIP] No footer template found")
-
-    # 3.c. - Generate PDF
     pdf_maker = PdfMaker(temp_dir=temp_dir)
     print_color.green("[PROC] Generating main PDF document")
-    pdf_maker.from_html_file(updated_html_path, header_html, footer_html)
+    pdf_maker.from_html_file(updated_html_path)
 
-    # 3.d. - Merge branding
+    # 3.a. - Add header/footer underlay
+    # NOTE: this cannot be done as an overlay, due to a bug in PyMuPDF
+    if underlay_template := resources.get_resource_content("background.html"):
+        print_color.green("[PROC] Rendering underlay templates for each page")
+        underlay_html = HtmlTemplator.render(
+            underlay_template,
+            metadata,
+            pageNumber="__PAGENUMBER__",
+            hasCoverPage="hasCoverPage" if with_cover_page else "",
+        )
+        pdf_maker.merge_underlay_html(underlay_html)
+    else:
+        print_color.orange(
+            "[SKIP] No HTML overlay template found. No headers and footers will be added"
+        )
+
+    # 3.b. - Merge branding background
     if background_file := resources.get_resource_path("background.pdf"):
         pdf_maker.merge_background_pdf(background_file)
         print_color.green("[PROC] Merging background PDF")
     else:
         print_color.orange("[SKIP] No PDF background file found")
 
-    # 3.e. - Add cover page
+    # 3.c. - Add cover page
     if with_cover_page:
         cover_html = "<html></html>"
         cover_template = resources.get_resource_content("cover.html")
@@ -143,12 +139,12 @@ with tempfile.TemporaryDirectory() as temp_dir:
         else:
             print_color.orange("[SKIP] No HTML cover template found")
 
-        title_page_file = resources.get_resource_path("cover.pdf")
-        if not title_page_file:
+        cover_page_file = resources.get_resource_path("cover.pdf")
+        if not cover_page_file:
             print_color.orange("[SKIP] No PDF cover page file found")
 
         print_color.green("[PROC] Prefixing with cover page")
-        pdf_maker.inject_title_page_pdf(title_page_file, cover_html)
+        pdf_maker.prepend_cover_page(cover_page_file, cover_html)
     else:
         print_color.orange("[SKIP] Skipping cover page")
 

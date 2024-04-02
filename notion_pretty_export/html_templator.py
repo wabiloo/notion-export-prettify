@@ -13,6 +13,6 @@ class HtmlTemplator:
         return template.render(context)
 
     @staticmethod
-    def render(html_template, context):
+    def render(html_template, context, **kwargs):
         template = Template(html_template)
-        return template.render(context)
+        return template.render(context, **kwargs)

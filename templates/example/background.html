@@ -1,0 +1,97 @@
+<html>
+    <head>
+        <style>
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Trick to hide the page 1 header if there is no cover page */
+.header-page-1 {
+    display: none;
+}
+.hasCoverPage .header-page-1 {    
+    display: block;
+}
+
+.header-container {
+    padding-top: 1.8cm;
+    padding-left: 2cm;
+}
+
+.footer-container {
+    padding: 0 3.5cm 0.7cm 3cm;
+    color: white;    
+}
+
+.doc-project {
+    font-weight: bold;
+}
+.doc-title {
+    float: right;
+    font-weight: bold;
+}
+.doc-copyright {
+    font-size: 80%;
+}
+
+.page-number {
+    color: black;
+    position: absolute;
+    bottom: 1cm;
+    right: 1.0cm;
+    width: 1.2cm;
+    height: 0.5cm;
+    text-align: center;
+    font-size: 20px;
+}
+
+/* leave the rest untouched to ensure good rendering in PDF */
+
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* border: 1px solid blue; */
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    /* border: 1px solid red; */
+}
+
+@media print {
+    body {
+        margin: 0;
+        /* essential to ensure that white remains white */
+        -webkit-print-color-adjust: exact;
+    }
+}
+
+@page {
+    size: A4 portrait;
+    margin: 0;
+}
+
+        </style>
+    </head>
+    <body class="{{hasCoverPage}}">
+        <header class="header-page-{{pageNumber}}">
+            <div class="header-container">
+                <div class="doc-project">{{project}}</div>
+                <div class="doc-date">{{date}}</div>
+            </div>            
+        </header>
+        <footer>
+            <div class="footer-container">
+                <div class="doc-title">{{title}}</div>
+                <div class="doc-copyright">©️ Company</div>
+            </div>            
+            <div class="page-number">{{pageNumber}}</div>
+        </footer>
+    </body>
+</html>
