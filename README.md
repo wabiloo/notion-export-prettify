@@ -39,7 +39,11 @@ Features:
 
 All of those are optional, and will just be done if associated resources are available in the template.
 
-Template?  Yes, you can also have several templates defined, and choose the one to apply when you run the tool.
+## Templates
+
+Templates?  Yes, you can also have several templates defined, and choose the one to apply when you run the tool.
+
+_(documentation being written)_
 
 ## Usage
 ```
