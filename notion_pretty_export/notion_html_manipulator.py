@@ -50,7 +50,7 @@ class NotionHtmlManipulator:
                 if any(
                     child
                     for child in div.children
-                    if child.string and child.string.startswith("Internal")
+                    if child.string and child.string.lower().startswith("internal")
                 ):
                     callout.extract()
 
