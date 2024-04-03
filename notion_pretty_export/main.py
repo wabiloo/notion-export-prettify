@@ -9,6 +9,7 @@ from pdf_maker import PdfMaker
 from resource_loader import ResourceLoader
 from html_templator import HtmlTemplator
 import print_color
+import shutil
 
 logging.basicConfig(level=logging.DEBUG)
 logging.getLogger("asyncio").setLevel(logging.WARNING)
@@ -22,8 +23,20 @@ resources = ResourceLoader(args.template_dir)
 with tempfile.TemporaryDirectory() as temp_dir:
     logging.debug("Temporary directory: %s", temp_dir)
 
-    with zipfile.ZipFile(args.zip_file, "r") as zip_ref:
-        zip_ref.extractall(temp_dir)
+    if args.input_file.endswith(".zip"):
+        with zipfile.ZipFile(args.input_file, "r") as zip_ref:
+            zip_ref.extractall(temp_dir)
+    elif args.input_file.endswith(".html"):
+        # If the input file is an HTML file, just copy it to the temporary directory
+        logging.debug("Copying HTML file to temporary directory")
+        shutil.copy(args.input_file, temp_dir)
+        # as well as the associated folder with the same name (if any)
+        input_asset_folder = args.input_file.replace(".html", "")
+        if path.exists(input_asset_folder):
+            shutil.copytree(input_asset_folder, path.join(temp_dir, path.basename(input_asset_folder)))
+    else:
+        print_color.red("[ERROR] Unsupported input file format")
+        exit(1)
 
     # Find the single HTML file in that folder
     html_files = [f for f in listdir(temp_dir) if f.endswith(".html")]
@@ -171,7 +184,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
             filename = metadata["project"] + " - " + filename
 
         # Save in the same directory as the input with the title as filename
-        output_file = path.join(path.dirname(args.zip_file), filename)
+        output_file = path.join(path.dirname(args.input_file), filename)
 
     pdf_maker.save(output_file)
 

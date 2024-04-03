@@ -7,9 +7,9 @@ def parse_args():
     )
 
     parser.add_argument(
-        "zip_file",
+        "input_file",
         type=str,
-        help="Path to the zip file exported from Notion",
+        help="Path to the input file exported from Notion. Can be either the ZIP file, or the HTML file",
     )
 
     parser.add_argument(
