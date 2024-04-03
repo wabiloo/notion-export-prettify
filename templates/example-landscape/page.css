@@ -1,0 +1,18 @@
+
+@page {
+    size: A4 landscape;
+    margin: 3.5cm 2.5cm 2.5cm 2.5cm
+}
+
+
+@media print {
+    body {
+        margin: 0;
+        /* essential to ensure that white remains white */
+        -webkit-print-color-adjust: exact;
+    }
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}

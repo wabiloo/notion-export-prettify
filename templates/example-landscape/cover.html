@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <style type="text/css">
+      
+@page {
+  /* To allow positioning based on page borders */
+  margin: 0
+}
+
+body {
+  margin-left: 14cm;
+  margin-top: 10.5cm;
+  margin-right: 3cm;
+}
+
+
+.title, .project, .date {  
+  text-align: left;
+  color: #0C395F;
+  font-weight: bold;
+  margin-bottom: 0.5cm;
+}
+
+.title {
+  font-size: 40px;
+}
+.project {
+  font-size: 30px;
+}
+.date {
+  font-size: 20px;
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="title">
+      {{title}}
+    </div>
+    <div class="project">
+      {{project}}
+    </div>
+    <div class="date">
+      {{date}}
+    </div>
+  </body>
+</html>
