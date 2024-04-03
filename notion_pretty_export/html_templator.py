@@ -1,18 +1,22 @@
-from jinja2 import Environment, FileSystemLoader, Template, select_autoescape
+from jinja2 import Template
+from bs4 import BeautifulSoup
 
 
 class HtmlTemplator:
-    def __init__(self, template_path):
-        self.env = Environment(
-            loader=FileSystemLoader(template_path),
-            autoescape=select_autoescape(["html", "xml"]),
-        )
+    def __init__(self, template):
+        self.html = template
 
-    def render_from_file(self, template_name, context):
-        template = self.env.get_template(template_name)
-        return template.render(context)
+    def inject(self, context, **kwargs):
+        template = Template(self.html)
+        self.html = template.render(context, **kwargs)
+        return self
 
-    @staticmethod
-    def render(html_template, context, **kwargs):
-        template = Template(html_template)
-        return template.render(context, **kwargs)
+    def add_css(self, css):
+        soup = BeautifulSoup(self.html, "html.parser")
+        new_style_tag = soup.new_tag("style", type="text/css")
+        new_style_tag.string = css
+
+        # Append the new <style> tag to the <head>
+        soup.head.insert(0, new_style_tag)
+        self.html = str(soup)
+        return self

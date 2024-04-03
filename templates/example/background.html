@@ -2,8 +2,25 @@
     <head>
         <style>
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
+@page {
+    /* overwrite to allow absolute position to the page borders */
+    margin: 0
+}
+
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* border: 1px solid blue; */
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    /* border: 1px solid red; */
 }
 
 /* Trick to hide the page 1 header if there is no cover page */
@@ -15,12 +32,12 @@ body {
 }
 
 .header-container {
-    padding-top: 1.8cm;
-    padding-left: 2cm;
+    margin-top: 1.8cm;
+    margin-left: 2cm;
 }
 
 .footer-container {
-    padding: 0 3.5cm 0.7cm 3cm;
+    margin: 0 3.5cm 0.7cm 3cm;
     color: white;    
 }
 
@@ -46,36 +63,6 @@ body {
     font-size: 20px;
 }
 
-/* leave the rest untouched to ensure good rendering in PDF */
-
-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    /* border: 1px solid blue; */
-}
-
-footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    /* border: 1px solid red; */
-}
-
-@media print {
-    body {
-        margin: 0;
-        /* essential to ensure that white remains white */
-        -webkit-print-color-adjust: exact;
-    }
-}
-
-@page {
-    size: A4 portrait;
-    margin: 0;
-}
 
         </style>
     </head>

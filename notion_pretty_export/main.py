@@ -4,7 +4,7 @@ import tempfile
 import zipfile
 
 from args import parse_args
-from html_manipulator import HtmlManipulator
+from notion_pretty_export.notion_html_manipulator import NotionHtmlManipulator
 from pdf_maker import PdfMaker
 from resource_loader import ResourceLoader
 from html_templator import HtmlTemplator
@@ -38,7 +38,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
     )
 
     # 1. - Manipulate the HTML
-    manipulator = HtmlManipulator(html_file)
+    manipulator = NotionHtmlManipulator(html_file)
 
     # Prepare metadata
     metadata = {
@@ -49,10 +49,19 @@ with tempfile.TemporaryDirectory() as temp_dir:
         "date": args.date or "",
     }
 
+    # Get page.css
+    page_css = resources.get_resource_content("page.css")
+
     # 1.a. - Overwrite CSS
-    if css_file := resources.get_resource_path("overwrites.css"):
+    if page_css:
+        print_color.green("[PROC] Injecting page.css")
+        manipulator.add_css_overwrites(page_css)
+    else:
+        print_color.orange("[SKIP] No page.css found")
+
+    if css_overwrites := resources.get_resource_content("overwrites.css"):
         print_color.green("[PROC] Injecting overwrites.css")
-        manipulator.add_css(css_file)
+        manipulator.add_css_overwrites(css_overwrites)
     else:
         print_color.orange("[SKIP] No overwrites.css found")
 
@@ -88,7 +97,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
     else:
         if header_template := resources.get_resource_content("header.html"):
             print_color.green("[PROC] Rendering and injecting new header block")
-            title_block = HtmlTemplator.render(header_template, metadata)
+            title_block = HtmlTemplator(header_template).inject(metadata).html
             manipulator.inject_title_block(title_block)
         else:
             print_color.orange(
@@ -110,11 +119,15 @@ with tempfile.TemporaryDirectory() as temp_dir:
     # NOTE: this cannot be done as an overlay, due to a bug in PyMuPDF
     if underlay_template := resources.get_resource_content("background.html"):
         print_color.green("[PROC] Rendering underlay templates for each page")
-        underlay_html = HtmlTemplator.render(
-            underlay_template,
-            metadata,
-            pageNumber="__PAGENUMBER__",
-            hasCoverPage="hasCoverPage" if with_cover_page else "",
+        underlay_html = (
+            HtmlTemplator(underlay_template)
+            .inject(
+                metadata,
+                pageNumber="__PAGENUMBER__",
+                hasCoverPage="hasCoverPage" if with_cover_page else "",
+            )
+            .add_css(page_css)
+            .html
         )
         pdf_maker.merge_underlay_html(underlay_html)
     else:
@@ -135,7 +148,9 @@ with tempfile.TemporaryDirectory() as temp_dir:
         cover_template = resources.get_resource_content("cover.html")
         if cover_template:
             print_color.green("[PROC] Rendering cover template")
-            cover_html = HtmlTemplator.render(cover_template, metadata)
+            cover_html = (
+                HtmlTemplator(cover_template).inject(metadata).add_css(page_css).html
+            )
         else:
             print_color.orange("[SKIP] No HTML cover template found")
 

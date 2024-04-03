@@ -34,10 +34,10 @@ class PdfMaker:
             # NOTE: abandonned any attempt at making use of header_template and footer_template. Too inflexible
             page.pdf(
                 path=self.output_path,
-                format="A4",
+                # format="A4",
                 display_header_footer=False,
                 prefer_css_page_size=True,
-                margin=dict(top="0", right="0", bottom="0", left="0"),
+                # margin=dict(top="0", right="0", bottom="0", left="0"),
             )
 
             self.pdf_doc = fitz.open(self.output_path)

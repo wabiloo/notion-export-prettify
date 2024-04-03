@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 
 
-class HtmlManipulator:
+class NotionHtmlManipulator:
     def __init__(self, html_path):
         with open(html_path, "r") as file:
             html_content = file.read()
@@ -24,10 +24,7 @@ class HtmlManipulator:
             page_title = header.find("h1")
             return page_title.text
 
-    def add_css(self, css_file_path):
-        with open(css_file_path, "r") as file:
-            css_content = file.read()
-
+    def add_css_overwrites(self, css_content):
         # Create a new <style> tag
         new_style_tag = self.soup.new_tag("style", type="text/css")
         new_style_tag.string = css_content
