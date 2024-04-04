@@ -15,6 +15,13 @@ header {
         font-weight: bold;
         font-size: 30px;
     }
+    .page-title {
+        margin-bottom: 0.5cm;
+    }
+    .page-subtitle {
+        font-size: 25px;
+        color: grey
+    }
 }
 
 /* remove first <p>, which contains page ID */

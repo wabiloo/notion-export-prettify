@@ -15,8 +15,12 @@ logging.basicConfig(level=logging.DEBUG)
 logging.getLogger("asyncio").setLevel(logging.WARNING)
 
 args = parse_args()
+resources = ResourceLoader()
 
-resources = ResourceLoader(args.template_dir)
+# Template dir is the one containing the template config file
+if args.template:
+    template_dir = path.dirname(args.template)
+    resources.set_folder(template_dir)
 
 
 # Create a temporary directory to extract the zip file to
@@ -33,7 +37,10 @@ with tempfile.TemporaryDirectory() as temp_dir:
         # as well as the associated folder with the same name (if any)
         input_asset_folder = args.input_file.replace(".html", "")
         if path.exists(input_asset_folder):
-            shutil.copytree(input_asset_folder, path.join(temp_dir, path.basename(input_asset_folder)))
+            shutil.copytree(
+                input_asset_folder,
+                path.join(temp_dir, path.basename(input_asset_folder)),
+            )
     else:
         print_color.red("[ERROR] Unsupported input file format")
         exit(1)

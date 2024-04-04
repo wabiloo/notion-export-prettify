@@ -1,8 +1,9 @@
+import configargparse
 import argparse
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(
+    parser = configargparse.ArgumentParser(
         description="Turn a Notion page into a styled PDF document."
     )
 
@@ -13,9 +14,11 @@ def parse_args():
     )
 
     parser.add_argument(
-        "template_dir",
+        "-t",
+        "--template",
+        is_config_file=True,
         type=str,
-        help="Path to the template directory",
+        help="Path to the template file",
     )
 
     parser.add_argument(
@@ -23,7 +26,7 @@ def parse_args():
         "--output",
         type=str,
         default=None,
-        help="Path to the output PDF file. "        
+        help="Path to the output PDF file. "
         "Defaults to using the document title as filename, stored in the same folder as the input.",
     )
 
@@ -32,11 +35,11 @@ def parse_args():
         "Metadata",
         description="Available to be injected into header/footer/cover page templates",
     )
-    metadata.add_argument("-t", "--title", type=str, help="Title of the document")
-    metadata.add_argument("-s", "--subtitle", type=str, help="Subtitle of the document")
-    metadata.add_argument("-p", "--project", type=str, help="project of the document")
-    metadata.add_argument("-a", "--author", type=str, help="Author of the document")
-    metadata.add_argument("-d", "--date", type=str, help="Date of the document")
+    metadata.add_argument("--title", type=str, help="Title of the document")
+    metadata.add_argument("--subtitle", type=str, help="Subtitle of the document")
+    metadata.add_argument("--project", type=str, help="project of the document")
+    metadata.add_argument("--author", type=str, help="Author of the document")
+    metadata.add_argument("--date", type=str, help="Date of the document")
 
     # options
     options = parser.add_argument_group(
