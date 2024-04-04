@@ -1,8 +1,65 @@
+from os import path, getcwd
+import sys
 import configargparse
 import argparse
+import logging
+
+
+# Function to manually find and modify the --config argument to make it a full path
+def modify_config_path(args):
+
+    config_index = None
+    for i, arg in enumerate(args):
+        if arg in ("-t", "--template"):
+            config_index = i + 1
+            break
+
+    if config_index is not None and config_index < len(args):
+        template_arg = args[config_index]
+        logging.debug(f"Template argument: {template_arg}")
+
+        if path.exists(template_arg):
+            if path.isfile(template_arg):
+                logging.debug(f"Template file at '{template_arg}'")
+                return args
+            if path.isdir(template_arg):
+                template_file = path.join(template_arg, "template.cfg")
+                args[config_index] = template_file
+                return args
+
+        if not path.exists(template_arg):
+            logging.debug(f"No template file at '{template_arg}'")
+            # If the template argument is not a full path, try to find it in the current directory
+            candidate_template_dir = path.realpath(path.join(getcwd(), template_arg))
+            logging.debug(f"Checking for template in '{candidate_template_dir}")
+            if path.exists(candidate_template_dir) and path.isdir(
+                candidate_template_dir
+            ):
+                candidate_template_file = path.join(
+                    candidate_template_dir, "template.cfg"
+                )
+                args[config_index] = candidate_template_file
+            else:
+                # Try the built-in templates
+                builtin_template_dir = path.realpath(
+                    path.join(path.dirname(__file__), "../templates", template_arg)
+                )
+                logging.debug(f"Checking for template in '{builtin_template_dir}")
+                if path.exists(builtin_template_dir) and path.isdir(
+                    builtin_template_dir
+                ):
+                    builtin_template_file = path.join(
+                        builtin_template_dir, "template.cfg"
+                    )
+                    args[config_index] = builtin_template_file
+
+    return args
 
 
 def parse_args():
+    # Preprocess the command line arguments
+    sanitized_args = modify_config_path(sys.argv[1:])
+
     parser = configargparse.ArgumentParser(
         description="Turn a Notion page into a styled PDF document."
     )
@@ -71,4 +128,4 @@ def parse_args():
         help="Add a table of contents (if existing in the Notion document)",
     )
 
-    return parser.parse_args()
+    return parser.parse_args(sanitized_args)
