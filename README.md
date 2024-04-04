@@ -1,27 +1,5 @@
 # notion-pretty-export
 
-So, you are the type of person who still believes in function over style,
-and like to avoid unnecessary work.
-For that reason, you got converted by the rich toolset that Notion offers, 
-and use it pretty much exclusively for all your note taking, document writing
-and general thought dumping.
-You've even managed to convince your manager to let you use at work, and converted
-some folks to your way of working...
-
-Life is sweet!
-
-But then comes the time when you need to share some of that
-content with 3rd parties, in an official capacity. You cannot just let them in the 21st century
-and share the page. You need something that they can print, stamped with your corporate look and feel.
-
-You now are left with no option but open dreadful Microsoft Word, and copy and paste all your stuff into it,
-and lose the images in the process, and have to fight with its appalling styling and atrocious numbering systems. 
-
-Hours that you will never get back...
-And imagine if a change needs to be done after that...  I cry just thinking about it.
-
-Well, these days might be over. This tool might just be for you!
-
 ## Export, convert, rest.
 
 This tool enables you to take a standard page export from Notion, and turn it into a branded PDF.
@@ -43,45 +21,7 @@ All of those are optional, and will just be done if associated resources are ava
 
 Templates?  Yes, you can also have several templates defined, and choose the one to apply when you run the tool.
 
-_(documentation being written)_
+## Documentation
 
-## Usage
-```
-usage: main.py [-h] [-o OUTPUT] [-t TITLE] [-s SUBTITLE] [-p PROJECT] [-a AUTHOR] [-d DATE] [--title-page | --no-title-page]
-               [--heading-numbers | --no-heading-numbers] [--strip-internal-info | --no-strip-internal-info]
-               zip_file template_dir
+For full documentation, head to [this Notion page](https://fabrelambeau.notion.site/Notion-Pretty-Export-676b706adc09483dab72ebc89a1f210c), which you can also use as a source for the tool itself, to test it.
 
-Turn a Notion page into a styled PDF document.
-
-positional arguments:
-  zip_file              Path to the zip file exported from Notion
-  template_dir          Path to the template directory
-
-options:
-  -h, --help            show this help message and exit
-  -o OUTPUT, --output OUTPUT
-                        Path to the output PDF file
-
-Metadata:
-  Available to be injected into header/footer/cover page templates
-
-  -t TITLE, --title TITLE
-                        Title of the document
-  -s SUBTITLE, --subtitle SUBTITLE
-                        Subtitle of the document
-  -p PROJECT, --project PROJECT
-                        project of the document
-  -a AUTHOR, --author AUTHOR
-                        Author of the document
-  -d DATE, --date DATE  Date of the document
-
-Options:
-  Options to control the output
-
-  --title-page, --no-title-page
-                        Add a title page (if defined in the template)
-  --heading-numbers, --no-heading-numbers
-                        Add heading numbers
-  --strip-internal-info, --no-strip-internal-info
-                        Remove internal information, such as callouts and database properties
-```
