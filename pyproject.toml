@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "notion_pretty_export"
-version = "0.1.0"
+version = "1.0.0"
 description = ""
 authors = ["Fabre Lambeau <fabre.lambeau@gmail.com>"]
 readme = "README.md"
