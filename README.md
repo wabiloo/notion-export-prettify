@@ -1,4 +1,4 @@
-# notion-pretty-export
+# notion-export-prettify
 
 ## Export, convert, rest.
 
@@ -23,5 +23,5 @@ Templates?  Yes, you can also have several templates defined, and choose the one
 
 ## Documentation
 
-For full documentation, head to [this Notion page](https://fabrelambeau.notion.site/Notion-Pretty-Export-676b706adc09483dab72ebc89a1f210c), which you can also use as a source for the tool itself, to test it.
+For full documentation, head to [this Notion page](https://fabrelambeau.notion.site/Notion-Export-Prettify-676b706adc09483dab72ebc89a1f210c), which you can also use as a source for the tool itself, to test it.
 
