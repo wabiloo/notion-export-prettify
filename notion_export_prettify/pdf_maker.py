@@ -109,6 +109,44 @@ class PdfMaker:
         metadata.update(new_metadata)
         self.pdf_doc.set_metadata(metadata)
 
+    def make_toc(self, heading_map: dict):
+        # Create a PDF table of contents, from headings
+        toc = []
+
+        for page_number, page in enumerate(self.pdf_doc):
+            logging.debug(f"Searching for links on page {page_number}")
+            links = page.get_links()
+
+            for link in links:
+                # get the text of the link (just because...)
+                rect = fitz.Rect(link["from"])
+                text = page.get_text(clip=rect)
+
+                if link["kind"] == fitz.LINK_NAMED:
+                    tgt_page_number = link["page"]
+                    tgt_id = link["nameddest"]
+
+                    # add an entry to the table of contents
+                    heading = heading_map.get(tgt_id)
+                    if heading:
+                        toc.append(
+                            [heading["level"], heading["text"], tgt_page_number + 1]
+                        )  # 0-based page numbers in links; 1-based in TOC
+
+                    logging.debug(
+                        f"link '{heading['text']}' to #{tgt_id} -> page {tgt_page_number}"
+                    )
+                elif link["kind"] == fitz.LINK_URI:
+                    logging.debug(f"link '{text}' -> uri {link.get('uri')}")
+                elif link["kind"] == fitz.LINK_LAUNCH:
+                    logging.debug(f"deleting link -> file {link.get('file')}")
+                    # LINK_LAUNCH links for images are not useful anymore as they point to the tempdir. 
+                    page.delete_link(link)
+                else:
+                    logging.debug(f"link of type {link['kind']} with text '{text}'")
+
+        self.pdf_doc.set_toc(toc)
+
     def save(self, output_pdf_path=None):
         if not output_pdf_path:
             output_pdf_path = self.output_path

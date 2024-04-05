@@ -129,12 +129,12 @@ def main():
             f.write(manipulator.get_html())
             logging.debug("Updated HTML saved to %s", updated_html_path)
 
-        # 3. - Convert to PDF
+        # 2. - Convert to PDF
         pdf_maker = PdfMaker(temp_dir=temp_dir)
         green("[PROC] Generating main PDF document")
         pdf_maker.from_html_file(updated_html_path)
 
-        # 3.a. - Add header/footer underlay
+        # 2.a. - Add header/footer underlay
         # NOTE: this cannot be done as an overlay, due to a bug in PyMuPDF
         if underlay_template := resources.get_resource_content("background.html"):
             green("[PROC] Rendering underlay templates for each page")
@@ -154,14 +154,14 @@ def main():
                 "[SKIP] No HTML overlay template found. No headers and footers will be added"
             )
 
-        # 3.b. - Merge branding background
+        # 2.b. - Merge branding background
         if background_file := resources.get_resource_path("background.pdf"):
             pdf_maker.merge_background_pdf(background_file)
             green("[PROC] Merging background PDF")
         else:
             orange("[SKIP] No PDF background file found")
 
-        # 3.c. - Add cover page
+        # 2.c. - Add cover page
         if with_cover_page:
             cover_html = "<html></html>"
             cover_template = resources.get_resource_content("cover.html")
@@ -184,6 +184,10 @@ def main():
             pdf_maker.prepend_cover_page(cover_page_file, cover_html)
         else:
             orange("[SKIP] Skipping cover page")
+
+        # 3. - Add PDF TOC
+        green("[PROC] Building PDF TOC")
+        pdf_maker.make_toc(manipulator.get_heading_map())
 
         # 4. - Add metadata
         green("[PROC] Adding metadata")

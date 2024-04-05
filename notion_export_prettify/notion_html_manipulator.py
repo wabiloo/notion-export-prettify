@@ -125,5 +125,15 @@ class NotionHtmlManipulator:
             else:
                 parent_to_remove.extract()
 
+    def get_heading_map(self) -> dict:
+        # Extracts the id of all headings and maps them to their level
+        heading_map = {}
+        for heading in self.page_body.find_all(["h1", "h2", "h3"]):
+            heading_map[heading.get("id")] = dict(
+                level=int(heading.name[1]), text=heading.text
+            )
+
+        return heading_map
+
     def get_html(self):
         return str(self.soup)
