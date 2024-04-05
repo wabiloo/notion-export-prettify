@@ -94,6 +94,15 @@ class PdfMaker:
         # Insert first page at the beginning of the document
         self.pdf_doc.insert_pdf(titlepage, start_at=0)
 
+    def set_metadata(self, new_metadata: dict):
+        """
+        metadata: dict
+            keys: title, author, subject, keywords, creator, producer
+        """
+        metadata: dict = self.pdf_doc.metadata
+        metadata.update(new_metadata)
+        self.pdf_doc.set_metadata(metadata)
+
     def save(self, output_pdf_path=None):
         if not output_pdf_path:
             output_pdf_path = self.output_path

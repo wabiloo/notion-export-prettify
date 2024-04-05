@@ -1,3 +1,4 @@
+from importlib.metadata import version
 from os import path, listdir
 import logging
 import shutil
@@ -184,7 +185,19 @@ def main():
         else:
             orange("[SKIP] Skipping cover page")
 
-        # 4. - Save to file
+        # 4. - Add metadata
+        green("[PROC] Adding metadata")
+        pdf_maker.set_metadata(
+            dict(
+                title=metadata["title"],
+                creator="Notion",
+                producer=f"notion-export-prettify v{version('notion-export-prettify')}",
+                author=metadata["author"],
+                subject=metadata["description"],
+            )
+        )
+
+        # 5. - Save to file
         output_file = args.output
         if not output_file:
             filename = metadata["title"] + ".pdf"
