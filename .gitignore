@@ -164,3 +164,5 @@ cython_debug/
 .DS_Store
 experiments
 .vscode
+templates/example/Template.docx
+templates/example/Template.pdf
