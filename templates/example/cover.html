@@ -14,7 +14,7 @@ body {
 }
 
 
-.title, .project, .date {
+.metadata {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);  /* for absolute centering */
@@ -34,21 +34,29 @@ body {
   font-size: 30px;
   top: 19cm;
 }
-.date {
-  font-size: 20px;
+.author {
+  font-size: 25px;
   top: 21cm;
+}
+.date {
+  font-size: 25px;
+  top: 22cm;
+  color: gray;
 }
 
     </style>
   </head>
   <body>
-    <div class="title">
+    <div class="metadata title">
       {{title}}
     </div>
-    <div class="project">
+    <div class="metadata project">
       {{project}}
     </div>
-    <div class="date">
+    <div class="metadata author">
+      {{author}}
+    </div>
+    <div class="metadata date">
       {{date}}
     </div>
   </body>

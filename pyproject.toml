@@ -1,9 +1,10 @@
 [tool.poetry]
 name = "notion-export-prettify"
-version = "1.0.0"
+version = "1.2.0"
 description = ""
 authors = ["Fabre Lambeau <fabre.lambeau@gmail.com>"]
 readme = "README.md"
+include = ["templates/example", "templates/example-landscape"]
 
 [tool.poetry.dependencies]
 python = "^3.11"

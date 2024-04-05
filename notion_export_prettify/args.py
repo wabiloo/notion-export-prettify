@@ -3,6 +3,7 @@ import sys
 import configargparse
 import argparse
 import logging
+from importlib.metadata import version
 
 
 # Function to manually find and modify the --config argument to make it a full path
@@ -85,6 +86,10 @@ def parse_args():
         default=None,
         help="Path to the output PDF file. "
         "Defaults to using the document title as filename, stored in the same folder as the input.",
+    )
+
+    parser.add_argument(
+        "-v", "--version", action="version", version=version("notion-export-prettify")
     )
 
     # metadata
