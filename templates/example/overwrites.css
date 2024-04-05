@@ -25,9 +25,9 @@ header {
 }
 
 /* remove first <p>, which contains page ID */
-.page-body > p:first-of-type {
+/* .page-body > p:first-of-type {
     display: none;
-}
+} */
 
 h1, h2, h3 {
     page-break-after: avoid;
@@ -40,6 +40,11 @@ h1, h2, h3 {
 
 h1:not(:first-child) {
     page-break-before: always;
+}
+
+/* Code snippets */
+pre code {
+    font-size: 70% !important;
 }
 
 /* TOC overwrites */
