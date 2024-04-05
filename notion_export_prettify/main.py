@@ -64,6 +64,7 @@ def main():
         # Prepare metadata
         metadata = {
             "title": args.title or manipulator.get_title(),
+            "description": args.description or manipulator.get_description(),
             "subtitle": args.subtitle or "",
             "project": args.project or "",
             "author": args.author or "",

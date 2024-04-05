@@ -99,6 +99,7 @@ def parse_args():
     )
     metadata.add_argument("--title", type=str, help="Title of the document")
     metadata.add_argument("--subtitle", type=str, help="Subtitle of the document")
+    metadata.add_argument("--description", type=str, help="Description of the document")
     metadata.add_argument("--project", type=str, help="project of the document")
     metadata.add_argument("--author", type=str, help="Author of the document")
     metadata.add_argument("--date", type=str, help="Date of the document")

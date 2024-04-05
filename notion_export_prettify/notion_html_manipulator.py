@@ -6,9 +6,13 @@ class NotionHtmlManipulator:
         with open(html_path, "r") as file:
             html_content = file.read()
             self.soup = BeautifulSoup(html_content, "html.parser")
+
+            # Some essential parts of the Notion document structure
+            self.header = self.soup.find("header")
             self.page_body = self.soup.find("div", class_="page-body")
             self.toc = self.soup.find("nav")
             self.title = str(self.get_title())
+            self.description = str(self.get_description())
 
             if not self.page_body:
                 raise Exception(
@@ -19,10 +23,17 @@ class NotionHtmlManipulator:
         if hasattr(self, "title"):
             return self.title
 
-        # Get the first heading (document title)
-        for header in self.soup.find_all("header"):
-            page_title = header.find("h1")
+        if self.header:
+            page_title = self.header.find("h1")
             return page_title.text
+
+    def get_description(self):
+        if hasattr(self, "description"):
+            return self.description
+
+        if self.header:
+            page_description = self.header.find("p", class_="page-description")
+            return page_description.text
 
     def add_css_overwrites(self, css_content):
         # Create a new <style> tag
