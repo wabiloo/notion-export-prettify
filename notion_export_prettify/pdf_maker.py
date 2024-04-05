@@ -94,6 +94,12 @@ class PdfMaker:
         # Insert first page at the beginning of the document
         self.pdf_doc.insert_pdf(titlepage, start_at=0)
 
+        # Then reset the labels (to avoid two pages with number 1)
+        labels = self.pdf_doc.get_page_labels()
+        if labels:
+            labels[0]["style"] = ""
+            self.pdf_doc.set_page_labels(labels)
+
     def set_metadata(self, new_metadata: dict):
         """
         metadata: dict
