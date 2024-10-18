@@ -1,16 +1,16 @@
-from importlib.metadata import version
-from os import path, listdir
 import logging
 import shutil
 import tempfile
 import zipfile
+from importlib.metadata import version
+from os import listdir, path
 
 from .args import parse_args
+from .html_templator import HtmlTemplator
 from .notion_html_manipulator import NotionHtmlManipulator
 from .pdf_maker import PdfMaker
+from .print_color import green, orange, red
 from .resource_loader import ResourceLoader
-from .html_templator import HtmlTemplator
-from .print_color import red, green, orange
 
 logging.basicConfig(level=logging.DEBUG)
 logging.getLogger("asyncio").setLevel(logging.WARNING)
@@ -70,6 +70,7 @@ def main():
             "project": args.project or "",
             "author": args.author or "",
             "date": args.date or "",
+            "identifier": args.identifier or ""
         }
 
         # Get page.css

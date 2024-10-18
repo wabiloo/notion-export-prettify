@@ -1,9 +1,10 @@
-from os import path, getcwd
-import sys
-import configargparse
 import argparse
 import logging
+import sys
 from importlib.metadata import version
+from os import getcwd, path
+
+import configargparse
 
 
 # Function to manually find and modify the --config argument to make it a full path
@@ -103,6 +104,7 @@ def parse_args():
     metadata.add_argument("--project", type=str, help="project of the document")
     metadata.add_argument("--author", type=str, help="Author of the document")
     metadata.add_argument("--date", type=str, help="Date of the document")
+    metadata.add_argument("--identifier", type=str, help="Document identifier")
 
     # options
     options = parser.add_argument_group(
