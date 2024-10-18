@@ -1,7 +1,8 @@
-from playwright.sync_api import sync_playwright
-import fitz  # PyMuPDF
-from os import path
 import logging
+from os import path
+
+import fitz  # PyMuPDF
+from playwright.sync_api import sync_playwright
 
 empty_template = """
 <html><body></body></html>
@@ -145,7 +146,10 @@ class PdfMaker:
                 else:
                     logging.debug(f"link of type {link['kind']} with text '{text}'")
 
-        self.pdf_doc.set_toc(toc)
+        try:
+            self.pdf_doc.set_toc(toc)
+        except Exception as e:
+            logging.error(f"Error setting TOC: {e}")
 
     def save(self, output_pdf_path=None):
         if not output_pdf_path:
