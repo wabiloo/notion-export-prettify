@@ -116,14 +116,17 @@ class NotionHtmlManipulator:
 
             if keep:
                 # replace the parent with the nav
-                parent_to_remove.replace_with(self.toc)
+                if parent_to_remove:
+                    parent_to_remove.replace_with(self.toc)
 
                 # Prefix it with a new H1
                 new_h1 = self.soup.new_tag("h1")
                 new_h1.string = "Table of Contents"
+                new_h1["class"] = "toc-title"
                 self.toc.insert_before(new_h1)
             else:
-                parent_to_remove.extract()
+                if parent_to_remove:
+                    parent_to_remove.extract()
 
     def get_heading_map(self) -> dict:
         # Extracts the id of all headings and maps them to their level
